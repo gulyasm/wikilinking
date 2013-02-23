@@ -34,8 +34,7 @@ public class SimpleWikiLinking extends BaseWikiLinking {
 
 	protected Tokenizer getTokenizer() throws InvalidFormatException, IOException {
 		TokenizerModel tokenModel = null;
-		try (FileInputStream modelStream = new FileInputStream(
-				"e:\\Users\\gulyasm\\workspace-wikipedia\\WikipediaLinker\\resources\\en-token.bin")) {
+		try (FileInputStream modelStream = new FileInputStream("resources\\en-token.bin")) {
 			tokenModel = new TokenizerModel(modelStream);
 		}
 		Tokenizer tokenizer = new TokenizerME(tokenModel);
@@ -70,8 +69,7 @@ public class SimpleWikiLinking extends BaseWikiLinking {
 
 	protected POSTagger getPosTagger() throws FileNotFoundException, IOException {
 		POSModel posmodel = null;
-		try (FileInputStream modelStream = new FileInputStream(
-				"e:\\Users\\gulyasm\\workspace-wikipedia\\WikipediaLinker\\resources\\en-pos-maxent.bin")) {
+		try (FileInputStream modelStream = new FileInputStream("resources\\en-pos-maxent.bin")) {
 			posmodel = new POSModel(modelStream);
 		}
 		POSTaggerME tagger = new POSTaggerME(posmodel);
