@@ -1,5 +1,7 @@
 package hu.bme.tmit.wikilinker.linking;
 
+import hu.bme.tmit.wikilinker.lemmatizer.Lemmatizer;
+import hu.bme.tmit.wikilinker.lemmatizer.SnowballStemmerWrapper;
 import hu.bme.tmit.wikilinker.sanitizer.BruteSanitezer;
 import hu.bme.tmit.wikilinker.sanitizer.Sanitezer;
 import hu.bme.tmit.wikilinker.stoplist.StoplistFactory;
@@ -20,7 +22,6 @@ import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 import opennlp.tools.util.InvalidFormatException;
 
-import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
 
 import com.google.common.base.Predicate;
@@ -41,8 +42,8 @@ public class SimpleWikiLinking extends BaseWikiLinking {
 		return tokenizer;
 	}
 
-	protected SnowballStemmer getSnowballStemmer() {
-		return new englishStemmer();
+	protected Lemmatizer getLemmatizer() {
+		return new SnowballStemmerWrapper(new englishStemmer());
 	}
 
 	protected Sanitezer getSanitezer() {

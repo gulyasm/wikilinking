@@ -1,6 +1,7 @@
 package hu.bme.tmit.wikilinker.linking;
 
 import hu.bme.tmit.wikilinker.WikiLink;
+import hu.bme.tmit.wikilinker.lemmatizer.Lemmatizer;
 import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.sanitizer.Sanitezer;
 import hu.bme.tmit.wikilinker.wikialg.WikiLinkingAlgorithm;
@@ -20,8 +21,6 @@ import opennlp.tools.postag.POSTagger;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.util.InvalidFormatException;
 
-import org.tartarus.snowball.SnowballStemmer;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.io.CharStreams;
@@ -40,7 +39,7 @@ public abstract class BaseWikiLinking implements WikiLinking {
 		this.debug = debug;
 	}
 
-	protected abstract SnowballStemmer getSnowballStemmer();
+	protected abstract Lemmatizer getLemmatizer();
 
 	protected abstract Tokenizer getTokenizer() throws InvalidFormatException, IOException;
 
@@ -63,7 +62,7 @@ public abstract class BaseWikiLinking implements WikiLinking {
 			Sanitezer sanitezer = getSanitezer();
 			Supplier<List<String>> stoplistSupplier = getStoplistSupplier();
 			POSTagger posTagger = getPosTagger();
-			SnowballStemmer stemmer = getSnowballStemmer();
+			Lemmatizer lemmatizer = getLemmatizer();
 			Predicate<String> predicate = getPredicate();
 			Set<String> stopList = new HashSet<>(stoplistSupplier.get());
 
@@ -90,9 +89,9 @@ public abstract class BaseWikiLinking implements WikiLinking {
 					String word = toks[i];
 					/* Plural, stemming */
 					if (tags[i].endsWith("S")) {
-						stemmer.setCurrent(toks[i]);
-						if (stemmer.stem()) {
-							word = stemmer.getCurrent();
+						lemmatizer.setCurrent(toks[i]);
+						if (lemmatizer.lemmatize()) {
+							word = lemmatizer.getCurrent();
 							if (debug) {
 								Log.d(MessageFormat.format("Stemming: {0} -> {1}", toks[i], word));
 							}
