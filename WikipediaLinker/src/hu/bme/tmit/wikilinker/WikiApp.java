@@ -1,5 +1,7 @@
 package hu.bme.tmit.wikilinker;
 
+import hu.bme.tmit.wikilinker.keyword.KeaExtractor;
+import hu.bme.tmit.wikilinker.keyword.KeywordExtractor;
 import hu.bme.tmit.wikilinker.linking.SimpleWikiLinking;
 import hu.bme.tmit.wikilinker.linking.WikiLinking;
 import hu.bme.tmit.wikilinker.logger.Logger;
@@ -38,14 +40,20 @@ public class WikiApp {
 			exit();
 
 		}
+		KeywordExtractor extractor = new KeaExtractor();
+		Log.i("Extracting...");
+		extractor.extract();
+		Log.i("Extracted");
 		WikiLinking linking = new SimpleWikiLinking(file);
+		Log.i("Linking...");
 		linking.setDebug(debug);
 		Collection<WikiLink> link = linking.link(file);
-
-		Log.l("------------------------------------");
+		Log.i("Linked");
+		Log.i("------------------------------------");
 		for (WikiLink wikiLink : link) {
-			Log.l(wikiLink.toString());
+			Log.i(wikiLink.toString());
 		}
+		Log.i("Finished!");
 
 	}
 

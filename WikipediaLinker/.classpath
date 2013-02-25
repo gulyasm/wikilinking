@@ -6,5 +6,12 @@
 	<classpathentry kind="lib" path="libs/opennlp-tools-1.5.2-incubating.jar" sourcepath="d:/Java libraries/apache-opennlp-1.5.2-incubating-src/opennlp-tools/src/main/java/"/>
 	<classpathentry kind="lib" path="libs/opennlp-uima-1.5.2-incubating.jar" sourcepath="D:/Java libraries/apache-opennlp-1.5.2-incubating-src/opennlp-uima/src/main/java"/>
 	<classpathentry kind="lib" path="libs/guava-13.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-logging.jar"/>
+	<classpathentry kind="lib" path="libs/icu4j_3_4.jar"/>
+	<classpathentry kind="lib" path="libs/iri.jar"/>
+	<classpathentry kind="lib" path="libs/jena.jar"/>
+	<classpathentry kind="lib" path="libs/kea-5.0.jar" sourcepath="d:/Java libraries/kea-5.0_source/src/"/>
+	<classpathentry kind="lib" path="libs/weka.jar"/>
+	<classpathentry kind="lib" path="libs/xercesImpl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

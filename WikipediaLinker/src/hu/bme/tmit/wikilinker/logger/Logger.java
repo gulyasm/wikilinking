@@ -20,7 +20,7 @@ public class Logger {
 		System.out.println(String.format("%-13s %-6s %-20s %-30s", formatter.format(new Date()), lvl, tag, msg));
 	}
 
-	public void l(String message) {
+	public void i(String message) {
 		log(tag, "INFO", message);
 	}
 
