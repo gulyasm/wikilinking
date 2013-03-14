@@ -9,9 +9,7 @@ import edu.jhu.nlp.wikipedia.WikiXMLParserFactory;
 
 public class TitleExtractor {
 	
-//	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-latest-pages-articles1.xml-p000000010p000010000";
-//	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-20130304-pages-meta-current12.xml-p001825001p002425000";
-	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-20130304-pages-meta-current23.xml";
+	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-latest-pages-articles1.xml";
 	
 	public static void main(String[] args) {
 		TitleExtractor extractor = new TitleExtractor();
@@ -21,7 +19,7 @@ public class TitleExtractor {
 	private void extrac() {
 		WikiXMLParser parser = WikiXMLParserFactory.getSAXParser(PATH);
 		try {
-			StatisticalCallback callback = new StatisticalCallback();
+			LinkAggregateCallback callback = new LinkAggregateCallback();
 			callback.setLogPagesInterval(100000);
 			parser.setPageCallback(callback);
 			Stopwatch stopwatch = new Stopwatch();
@@ -29,8 +27,8 @@ public class TitleExtractor {
 			parser.parse();
 			stopwatch.stop();
 			Locale.setDefault(Locale.US);
-			System.out.println("Pages ---> \n" + callback.getParsedPages());
-			System.out.println("Time ---> \n" + stopwatch.toString());
+			System.out.println("Pages:\t" + callback.getParsedPages());
+			System.out.println("Time:\t" + stopwatch.toString());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
