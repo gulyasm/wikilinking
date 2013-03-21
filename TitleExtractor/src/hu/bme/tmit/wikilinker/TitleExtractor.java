@@ -13,10 +13,10 @@ public class TitleExtractor {
 	
 	public static void main(String[] args) {
 		TitleExtractor extractor = new TitleExtractor();
-		extractor.extrac();
+		extractor.extract();
 	}
 
-	private void extrac() {
+	private void extract() {
 		WikiXMLParser parser = WikiXMLParserFactory.getSAXParser(PATH);
 		try {
 			LinkAggregateCallback callback = new LinkAggregateCallback();
