@@ -1,3 +1,5 @@
 WikipediaLinker/bin/
 TitleExtractor/bin/
 wikixmlj-read-only/bin/
+DatabaseTest/bin/
+DatabaseTest/db/
