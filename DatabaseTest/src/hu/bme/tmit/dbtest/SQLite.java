@@ -39,9 +39,11 @@ public class SQLite {
 	}
 
 	public void insert(String table, Map<String, String> values) throws SQLiteException {
-		String statement = MessageFormat.format("INSERT OR REPLACE INTO {0}({1}) VALUES(''{2}'')", table, Joiner
-				.on(", ")
-				.join(values.keySet()), Joiner.on(", ").join(values.values()));
+		String statement = MessageFormat.format(
+				"INSERT OR REPLACE INTO {0}({1}) VALUES(''{2}'')",
+				table,
+				Joiner.on(", ").join(values.keySet()),
+				Joiner.on(", ").join(values.values()));
 		conn.exec(statement);
 	}
 
