@@ -39,4 +39,8 @@ public class AbstractPageCallback implements PageCallbackHandler {
 		this.logPagesInterval = logPagesInterval;
 	}
 
+	public void onFinished() {
+
+	}
+
 }

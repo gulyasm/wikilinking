@@ -15,6 +15,8 @@ public class TitleExtractor {
 
 	private static final Logger LOG = new Logger(TitleExtractor.class);
 	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-latest-pages-articles1.xml";
+	@SuppressWarnings("unused")
+	// Sometimes I need it, sometimes I don't. It's funky.
 	private WikiKnowledge knowledge;
 
 	public static void main(String[] args) {
@@ -27,7 +29,7 @@ public class TitleExtractor {
 		try {
 			knowledge = new WikiKnowledge();
 			Logger.setLevel(Logger.INFO);
-			AnchorAggregateCallback callback = new AnchorAggregateCallback(knowledge);
+			DBAggregateCallback callback = new DBAggregateCallback();
 			parser.setPageCallback(callback);
 
 			// Start your engine...
@@ -35,6 +37,7 @@ public class TitleExtractor {
 			stopwatch.start();
 			// Start!
 			parser.parse();
+			callback.onFinished();
 			// Finish Line
 			stopwatch.stop();
 
