@@ -127,13 +127,11 @@ public class SQLite {
 		ensureAnchorStatement();
 		try {
 			Anchor result = null;
-			anchorStatement.bind(0, anchor);
-			if (anchorStatement.hasRow()) {
-				result = new Anchor(anchor);
-			} else {
-				return null;
-			}
+			anchorStatement.bind(1, anchor);
 			while (anchorStatement.step()) {
+				if (result == null) {
+					result = new Anchor(anchor);
+				}
 				result.addPage(new Page(anchorStatement.columnString(1)));
 			}
 			return result;
@@ -146,7 +144,7 @@ public class SQLite {
 		ensureTitleStatement();
 		try {
 			Page result = null;
-			titleStatement.bind(0, title);
+			titleStatement.bind(1, title);
 			if (titleStatement.hasRow()) {
 				result = new Page(title);
 			} else {

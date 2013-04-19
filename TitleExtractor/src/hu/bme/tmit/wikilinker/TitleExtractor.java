@@ -15,9 +15,6 @@ public class TitleExtractor {
 
 	private static final Logger LOG = new Logger(TitleExtractor.class);
 	private static final String PATH = "e:\\TEMP\\wiki-dumps\\enwiki-latest-pages-articles1.xml";
-	@SuppressWarnings("unused")
-	// Sometimes I need it, sometimes I don't. It's funky.
-	private WikiKnowledge knowledge;
 
 	public static void main(String[] args) {
 		TitleExtractor extractor = new TitleExtractor();
@@ -27,9 +24,9 @@ public class TitleExtractor {
 	private void extract() {
 		WikiXMLParser parser = WikiXMLParserFactory.getSAXParser(PATH);
 		try {
-			knowledge = new WikiKnowledge();
 			Logger.setLevel(Logger.INFO);
-			DBAggregateCallback callback = new DBAggregateCallback();
+//			AbstractPageCallback callback = new DBAggregateCallback();
+			AbstractPageCallback callback = new LinkerCallback();
 			parser.setPageCallback(callback);
 
 			// Start your engine...
@@ -49,7 +46,8 @@ public class TitleExtractor {
 			final int redirects = callback.getRedirects();
 			LOG.i(MessageFormat.format("Redirects:\t{0} - {1}% of total", redirects, redirects * 100 / parsedPages));
 			LOG.i("Time:\t\t" + stopwatch.toString());
-			LOG.i("FilteredByThreshold:\t\t" + callback.getFilteredByThreshold());
+			// LOG.i("FilteredByThreshold:\t\t" +
+			// callback.getFilteredByThreshold());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

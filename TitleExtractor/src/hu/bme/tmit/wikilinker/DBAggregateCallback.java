@@ -63,7 +63,7 @@ public class DBAggregateCallback extends AbstractPageCallback {
 					filteredByThreshold++;
 					continue;
 				}
-				db.putAnchor(anchorText, wikilink.link);
+				db.putAnchor(anchorText.toLowerCase(), wikilink.link);
 			}
 		} catch (SQLiteException e) {
 			e.printStackTrace();
