@@ -74,7 +74,7 @@ public abstract class BaseWikiLinking implements WikiLinking {
 			/* Stoplist és Predicate */
 			for (String token : toks) {
 				if (!stopList.contains(token) && predicate.apply(token)) {
-					toksTemp.add(sanitezer.sanitize((token)));
+					toksTemp.add(sanitezer.sanitize(token));
 				}
 			}
 			toks = toksTemp.toArray(new String[toksTemp.size()]);

@@ -10,7 +10,8 @@ public class Logger {
 	public static final int VERBOSE = 1;
 	public static final int DEBUG = 2;
 	public static final int INFO = 3;
-	public static final int ERROR = 4;
+	public static final int WARNING = 4;
+	public static final int ERROR = 5;
 	public static final int NONE = Integer.MAX_VALUE;
 	private static int LEVEL = DEBUG;
 
@@ -44,6 +45,8 @@ public class Logger {
 			return "DEBUG";
 		case INFO:
 			return "INFO";
+		case WARNING:
+			return "WARN";
 		case ERROR:
 			return "ERROR";
 		default:
@@ -57,6 +60,10 @@ public class Logger {
 
 	public void d(String message) {
 		log(tag, DEBUG, message);
+	}
+
+	public void w(String message) {
+		log(tag, WARNING, message);
 	}
 
 	public void e(String message) {
