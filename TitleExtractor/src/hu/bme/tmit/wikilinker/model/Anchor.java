@@ -12,6 +12,11 @@ public class Anchor {
 	private Set<Page> titles;
 
 	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Anchor)) return false;
 		return ((Anchor) obj).name.equals(name);

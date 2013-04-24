@@ -18,6 +18,19 @@ public class Page {
 		this.url = url;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Page) {
+			return Objects.equal(name, ((Page) obj).name);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+
 	public Page(String pageTitle) {
 		this(pageTitle, null);
 	}
