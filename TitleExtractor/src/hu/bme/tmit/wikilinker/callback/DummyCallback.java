@@ -1,4 +1,4 @@
-package hu.bme.tmit.wikilinker;
+package hu.bme.tmit.wikilinker.callback;
 
 import edu.jhu.nlp.wikipedia.WikiPage;
 

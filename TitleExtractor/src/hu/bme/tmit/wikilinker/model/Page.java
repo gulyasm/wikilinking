@@ -37,7 +37,7 @@ public class Page {
 	public String getUrl() {
 		return url;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(Page.class).add("name", name).toString();

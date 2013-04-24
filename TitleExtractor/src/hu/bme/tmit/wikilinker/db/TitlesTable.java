@@ -12,7 +12,7 @@ public final class TitlesTable {
 
 	public static final String INDEX_TITLE = "IndexTitlesTitle";
 
-	public TitlesTable() {
+	private TitlesTable() {
 	}
 
 }

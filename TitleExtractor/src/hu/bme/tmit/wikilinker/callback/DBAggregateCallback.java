@@ -1,4 +1,4 @@
-package hu.bme.tmit.wikilinker;
+package hu.bme.tmit.wikilinker.callback;
 
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.logger.Logger;

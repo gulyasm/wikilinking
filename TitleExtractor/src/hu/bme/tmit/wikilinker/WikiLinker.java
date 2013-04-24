@@ -1,5 +1,8 @@
 package hu.bme.tmit.wikilinker;
 
+import hu.bme.tmit.wikilinker.callback.AbstractPageCallback;
+import hu.bme.tmit.wikilinker.callback.DBAggregateCallback;
+import hu.bme.tmit.wikilinker.callback.LinkerCallback;
 import hu.bme.tmit.wikilinker.logger.Logger;
 
 import java.text.MessageFormat;

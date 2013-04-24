@@ -1,5 +1,7 @@
-package hu.bme.tmit.wikilinker;
+package hu.bme.tmit.wikilinker.callback;
 
+import hu.bme.tmit.wikilinker.BruteSanitezer;
+import hu.bme.tmit.wikilinker.Sanitezer;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.model.Anchor;
@@ -86,7 +88,8 @@ public class LinkerCallback extends AbstractPageCallback {
 			} catch (SQLiteException e) {
 				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 			}
-//			LOGGER.i(MessageFormat.format("Anchor tested: {0}. Result: {1}", toks[i], anchor == null ? "NO" : "FOUND"));
+			// LOGGER.i(MessageFormat.format("Anchor tested: {0}. Result: {1}",
+			// toks[i], anchor == null ? "NO" : "FOUND"));
 			if (anchor == null) {
 				continue;
 			}
