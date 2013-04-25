@@ -3,8 +3,12 @@ package hu.bme.tmit.wikilinker;
 import hu.bme.tmit.wikilinker.callback.AbstractPageCallback;
 import hu.bme.tmit.wikilinker.callback.DBAggregateCallback;
 import hu.bme.tmit.wikilinker.callback.LinkerCallback;
+import hu.bme.tmit.wikilinker.db.AnchorsTable;
+import hu.bme.tmit.wikilinker.db.SQLite;
+import hu.bme.tmit.wikilinker.db.TitlesTable;
 import hu.bme.tmit.wikilinker.logger.Logger;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -54,6 +58,9 @@ public class WikiLinker {
 		case "link":
 			extractor.link(paths.get(0));
 			break;
+		case "index":
+			extractor.createIndex();
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown command");
 		}
@@ -81,7 +88,8 @@ public class WikiLinker {
 		if (command == null) {
 			return false;
 		}
-		return "extract".equalsIgnoreCase(command) || "link".equalsIgnoreCase(command);
+		return "extract".equalsIgnoreCase(command) || "link".equalsIgnoreCase(command)
+				|| "index".equalsIgnoreCase(command);
 	}
 
 	public static void printUsage() {
@@ -98,7 +106,12 @@ public class WikiLinker {
 				.append("The path(s) of the dump(s) to process. No space is allowed in or between the path(s)")
 				.append("\n");
 		bld.append("Parameters").append("\n");
-		bld.append("\t").append("-l <logInterval>").append("\t").append("Callback logs progress every <logInterval> page").append("\n");
+		bld
+				.append("\t")
+				.append("-l <logInterval>")
+				.append("\t")
+				.append("Callback logs progress every <logInterval> page")
+				.append("\n");
 		System.out.println(bld.toString());
 	}
 
@@ -164,6 +177,40 @@ public class WikiLinker {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void createIndex() {
+		LOG.i("Creating index...");
+		SQLite db = null;
+		try {
+			File file = new File("db/wikidb");
+			if (!file.exists()) {
+				LOG.e("db file doesn't exist");
+				return;
+			}
+			db = new SQLite("db/wikidb");
+			Logger.setLevel(Logger.INFO);
+			// Start your engine...
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.start();
+			// Start!
+			db.createIndex(AnchorsTable.TABLE_NAME, AnchorsTable.FIELD_ANCHOR, AnchorsTable.INDEX_ANCHOR);
+			db.createIndex(TitlesTable.TABLE_NAME, TitlesTable.FIELD_TITLE, TitlesTable.INDEX_TITLE);
+			// Finish Line
+			stopwatch.stop();
+
+			// Excel miatt
+			Locale.setDefault(Locale.US);
+			System.out.println("-------------------------- STATISTICS --------------------------");
+			LOG.i("Time:\t\t" + stopwatch.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null) {
+				db.dispose();
+			}
+		}
+
 	}
 
 }
