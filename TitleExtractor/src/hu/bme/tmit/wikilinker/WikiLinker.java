@@ -20,6 +20,7 @@ import edu.jhu.nlp.wikipedia.WikiXMLParserFactory;
 public class WikiLinker {
 
 	private static final Logger LOG = new Logger(WikiLinker.class);
+	public static int logInterval = -1;
 
 	public static void main(String[] args) {
 		if (args.length < 2 || !isValidCommand(args[0])) {
@@ -31,6 +32,13 @@ public class WikiLinker {
 			String actualParam = args[i];
 			if (actualParam.startsWith("dump")) {
 				paths = extractPaths(actualParam);
+			}
+			if (actualParam.startsWith("-l")) {
+				try {
+					logInterval = Integer.parseInt(args[i + 1]);
+				} catch (NumberFormatException e) {
+					// Do nothing. logInterval stays as it was.
+				}
 			}
 		}
 		if (paths == null) {
@@ -82,8 +90,6 @@ public class WikiLinker {
 		bld.append("Command").append("\n");
 		bld.append("\t").append("extract").append("\t").append("Extract anchors from dump.").append("\n");
 		bld.append("\t").append("link").append("\t").append("Link a Wikipedia page.").append("\n");
-
-		bld.append("\n");
 		bld.append("Parameters").append("\n");
 		bld
 				.append("\t")
@@ -91,6 +97,8 @@ public class WikiLinker {
 				.append("\t")
 				.append("The path(s) of the dump(s) to process. No space is allowed in or between the path(s)")
 				.append("\n");
+		bld.append("Parameters").append("\n");
+		bld.append("\t").append("-l <logInterval>").append("\t").append("Callback logs progress every <logInterval> page").append("\n");
 		System.out.println(bld.toString());
 	}
 
@@ -102,6 +110,7 @@ public class WikiLinker {
 
 			AbstractPageCallback callback = new DBAggregateCallback();
 			parser.setPageCallback(callback);
+			callback.setLogPagesInterval(logInterval);
 
 			// Start your engine...
 			Stopwatch stopwatch = new Stopwatch();
@@ -133,6 +142,7 @@ public class WikiLinker {
 			AbstractPageCallback callback = new LinkerCallback();
 
 			parser.setPageCallback(callback);
+			callback.setLogPagesInterval(logInterval);
 
 			// Start your engine...
 			Stopwatch stopwatch = new Stopwatch();
