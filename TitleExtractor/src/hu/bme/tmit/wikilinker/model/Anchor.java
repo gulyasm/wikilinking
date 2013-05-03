@@ -30,6 +30,10 @@ public class Anchor {
 	public String getName() {
 		return name;
 	}
+	
+	public Set<Page> getTitles(){
+		return titles;
+	}
 
 	public void addPage(Page page) {
 		if (titles == null) {

@@ -5,6 +5,8 @@ import hu.bme.tmit.wikilinker.Sanitezer;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.model.Anchor;
+import hu.bme.tmit.wikilinker.model.Category;
+import hu.bme.tmit.wikilinker.model.Page;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +15,10 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
@@ -81,7 +86,7 @@ public class LinkerCallback extends AbstractPageCallback {
 		}
 		toks = toksTemp.toArray(new String[toksTemp.size()]);
 		/* Process the page */
-		for (int i = 0; i < toks.length; i++) {
+		for (int i = 0; i < 1/*toks.length*/; i++) {
 			Anchor anchor = null;
 			try {
 				anchor = db.getAnchor(toks[i].toLowerCase());
@@ -93,10 +98,38 @@ public class LinkerCallback extends AbstractPageCallback {
 			if (anchor == null) {
 				continue;
 			}
+			Page target = null;
+			double maxsim = -1.0; //
+			Set<Page> titles = anchor.getTitles();
+			/*Vector<String> vs = new Vector<String>();
+			vs.add("a"); vs.add("b"); vs.add("c"); vs.add("d");
+			List<String> ls = new ArrayList<String>();
+			ls.add("b"); ls.add("e"); ls.add("a");
+			double sim = similarity(vs,ls);
+			System.out.println(sim);*/
+			for (Iterator<Page> it = titles.iterator(); it.hasNext();){
+				Page title = it.next();
+				target = title;
+				/*double sim = similarity(page.getCategories(), title.getCategories());
+				if(sim > maxsim){
+					maxsim = sim;
+					target = title;
+				}*/
+			}
+			String catname = target.getCategoryNames().get(0);
 			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
 
 		}
 
+	}
+	
+	private double similarity(Vector<String> test, List<Category> retrieved){
+		int s = test.size();
+		double count = 0.0;
+		for(int i = 0; i < s; i++)
+			if(retrieved.contains(test.get(i)))
+				count += 1.0;
+		return (double)count/s;
 	}
 
 	private class LinkerPredicate implements Predicate<String> {
