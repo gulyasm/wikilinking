@@ -15,6 +15,7 @@ public class Page {
 
 	public Page(String name, String url) {
 		Preconditions.checkNotNull(name);
+		categories = new ArrayList<>();
 		this.name = name;
 		this.url = url;
 	}
@@ -51,14 +52,14 @@ public class Page {
 	public String getUrl() {
 		return url;
 	}
-	
-	public List<Category> getCategories(){
+
+	public List<Category> getCategories() {
 		return categories;
 	}
-	
-	public List<String> getCategoryNames(){
+
+	public List<String> getCategoryNames() {
 		List<String> catname = new ArrayList<String>();
-		for(int i = 0; i < categories.size(); i++)
+		for (int i = 0; i < categories.size(); i++)
 			catname.add(categories.get(i).getName());
 		return catname;
 	}

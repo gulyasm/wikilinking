@@ -145,13 +145,11 @@ public class SQLite {
 		try {
 			Page result = null;
 			titleStatement.bind(1, title);
-			if (titleStatement.hasRow()) {
-				result = new Page(title);
-			} else {
-				return null;
-			}
-			while (anchorStatement.step()) {
-				result.addCategory(new Category(anchorStatement.columnString(1)));
+			while (titleStatement.step()) {
+				if (result == null) {
+					result = new Page(title);
+				}
+				result.addCategory(new Category(titleStatement.columnString(1)));
 			}
 			return result;
 		} finally {
