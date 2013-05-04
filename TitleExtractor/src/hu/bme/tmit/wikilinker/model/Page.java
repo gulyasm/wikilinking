@@ -52,6 +52,10 @@ public class Page {
 		return url;
 	}
 	
+	public List<Category> getCategories(){
+		return categories;
+	}
+	
 	public List<String> getCategoryNames(){
 		List<String> catname = new ArrayList<String>();
 		for(int i = 0; i < categories.size(); i++)
