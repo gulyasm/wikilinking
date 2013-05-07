@@ -29,7 +29,9 @@ public class SQLite {
 	private static final ApostrhopyFunction aposFunc = new ApostrhopyFunction();
 
 	public SQLite(String path) throws SQLiteException {
-		conn = new SQLiteConnection(new File(path));
+		File file = new File(path);
+		file.getParentFile().mkdirs();
+		conn = new SQLiteConnection(file);
 		conn.open(true);
 	}
 

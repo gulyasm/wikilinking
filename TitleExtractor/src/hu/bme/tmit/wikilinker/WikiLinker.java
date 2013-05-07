@@ -45,7 +45,7 @@ public class WikiLinker {
 				}
 			}
 		}
-		if (paths == null) {
+		if (paths == null && !"index".equals(command)) {
 			exitWithError();
 		}
 		WikiLinker extractor = new WikiLinker();
@@ -97,6 +97,7 @@ public class WikiLinker {
 		bld.append("hu.bme.tmit.wikilinker.WikiLinker <command> <params> dump=path1,[path2,path3...]").append("\n\n");
 		bld.append("Command").append("\n");
 		bld.append("\t").append("extract").append("\t").append("Extract anchors from dump.").append("\n");
+		bld.append("\t").append("index").append("\t").append("Creates index on DB tables").append("\n");
 		bld.append("\t").append("link").append("\t").append("Link a Wikipedia page.").append("\n");
 		bld.append("Parameters").append("\n");
 		bld
