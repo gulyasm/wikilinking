@@ -45,7 +45,7 @@ public class WikiLinker {
 				}
 			}
 		}
-		if (paths == null) {
+		if (paths == null && !"index".equals(command)) {
 			exitWithError();
 		}
 		WikiLinker extractor = new WikiLinker();
