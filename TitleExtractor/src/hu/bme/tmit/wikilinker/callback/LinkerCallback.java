@@ -28,6 +28,7 @@ import com.almworks.sqlite4java.SQLiteException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 import edu.jhu.nlp.wikipedia.WikiPage;
@@ -85,11 +86,23 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 		}
 		toks = toksTemp.toArray(new String[toksTemp.size()]);
-		/* Process the page */
-		for (int i = 0; i < toks.length; i++) {
+		/* Eliminate duplicate occurences */
+		Set<String> tokenSet = Sets.newHashSet(toks);
+		
+		/* Process the page along toks array*/
+		/*for (int i = 0; i < toks.length; i++) {
 			Anchor anchor = null;
 			try {
-				anchor = db.getAnchor(toks[i].toLowerCase());
+				anchor = db.getAnchor(toks[i]);
+			} catch (SQLiteException e) {
+				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
+			}*/
+		
+		/* Process the page along tokenSet set*/
+		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
+			Anchor anchor = null;
+			try {
+				anchor = db.getAnchor(istr.next());
 			} catch (SQLiteException e) {
 				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 			}
@@ -105,17 +118,18 @@ public class LinkerCallback extends AbstractPageCallback {
 			for (Iterator<Page> it = titles.iterator(); it.hasNext();){
 				Page title = it.next();
 				try{
-					querypage = db.getPage(title.getName());
+					querypage = db.getPage(title.getName().toLowerCase().trim());
 				} catch(SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
-				/*double sim = similarity(page.getCategories(), querypage.getCategories());
-				if(sim > maxsim){
+				double sim = similarity(page.getCategories(), querypage.getCategories());
+				/*if(sim > maxsim){
 					maxsim = sim;
 					target = title;
 				}*/
 			}
-			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
+			if(querypage != null)
+				LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
 
 		}
 
@@ -123,6 +137,7 @@ public class LinkerCallback extends AbstractPageCallback {
 	
 	private double similarity(Vector<String> test, List<Category> retrieved){
 		int s = test.size();
+		if(s == 0) return 0.0;
 		double count = 0.0;
 		for(int i = 0; i < s; i++)
 			if(retrieved.contains(test.get(i)))

@@ -110,8 +110,8 @@ public class SQLite {
 	}
 
 	public void putTitle(String title, String category) throws SQLiteException {
-		tempMap.put(TitlesTable.FIELD_TITLE, title);
-		tempMap.put(TitlesTable.FIELD_CATEGORY, category);
+		tempMap.put(TitlesTable.FIELD_TITLE, title.toLowerCase().trim());
+		tempMap.put(TitlesTable.FIELD_CATEGORY, category.toLowerCase().trim());
 		insert(TitlesTable.TABLE_NAME, tempMap);
 		tempMap.clear();
 	}

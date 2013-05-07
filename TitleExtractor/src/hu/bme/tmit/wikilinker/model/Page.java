@@ -60,7 +60,7 @@ public class Page {
 	public List<String> getCategoryNames() {
 		List<String> catname = new ArrayList<String>();
 		for (int i = 0; i < categories.size(); i++)
-			catname.add(categories.get(i).getName());
+			catname.add(categories.get(i).getName().toLowerCase().trim());
 		return catname;
 	}
 
