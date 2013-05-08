@@ -6,6 +6,7 @@ import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.model.Anchor;
 import hu.bme.tmit.wikilinker.model.Category;
+import hu.bme.tmit.wikilinker.model.Hit;
 import hu.bme.tmit.wikilinker.model.Page;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -79,14 +81,14 @@ public class LinkerCallback extends AbstractPageCallback {
 		toks = tokenizer.tokenize(page.getText());
 		List<String> toksTemp = new ArrayList<>();
 
-		/* Stoplist és Predicate */
+		/* Stoplist and Predicate */
 		for (String token : toks) {
 			if (!stopList.contains(token) && predicate.apply(token)) {
 				toksTemp.add(sanitezer.sanitize(token));
 			}
 		}
 		toks = toksTemp.toArray(new String[toksTemp.size()]);
-		/* Eliminate duplicate occurences */
+		/* Eliminate duplicate occurrences */
 		Set<String> tokenSet = Sets.newHashSet(toks);
 		
 		/* Process the page along toks array*/
@@ -99,6 +101,7 @@ public class LinkerCallback extends AbstractPageCallback {
 			}*/
 		
 		/* Process the page along tokenSet set*/
+		
 		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
 			Anchor anchor = null;
 			try {
@@ -114,6 +117,7 @@ public class LinkerCallback extends AbstractPageCallback {
 			Page target = null;
 			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
+			List<Hit> hits = new ArrayList<>();
 			Page querypage = null;
 			for (Iterator<Page> it = titles.iterator(); it.hasNext();){
 				Page title = it.next();
@@ -124,13 +128,15 @@ public class LinkerCallback extends AbstractPageCallback {
 				}
 				if(querypage != null) {
 					double sim = similarity(page.getCategories(), querypage.getCategories());
-				}
-				/*if(sim > maxsim){
+					if(sim > -1) hits.add(new Hit(querypage, sim));
 					maxsim = sim;
-					target = title;
-				}*/
+				}
 			}
-			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
+			Collections.sort(hits);
+			if(maxsim > -1){
+				LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
+				LOGGER.i(MessageFormat.format("Best rank: {0}", hits.get(0)));
+			}
 		}
 
 	}
