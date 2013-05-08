@@ -122,15 +122,15 @@ public class LinkerCallback extends AbstractPageCallback {
 				} catch(SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
-				double sim = similarity(page.getCategories(), querypage.getCategories());
+				if(querypage != null) {
+					double sim = similarity(page.getCategories(), querypage.getCategories());
+				}
 				/*if(sim > maxsim){
 					maxsim = sim;
 					target = title;
 				}*/
 			}
-			if(querypage != null)
-				LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
-
+			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
 		}
 
 	}
