@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.almworks.sqlite4java.SQLiteException;
+import com.google.common.base.Joiner;
 
 import edu.jhu.nlp.wikipedia.WikiPage;
 import edu.jhu.nlp.wikipedia.Wikilink;
@@ -49,10 +50,11 @@ public class DBAggregateCallback extends AbstractPageCallback {
 			if (wikiPage.isRedirect()) {
 				return;
 			}
-			String pageTitle = new String(wikiPage.getTitle());
+			String pageTitle = new String(wikiPage.getTitle().toLowerCase().trim());
 			List<String> categories = wikiPage.getCategories();
+//			LOGGER.i(MessageFormat.format("Put title: {0}, categories: {1}", pageTitle, Joiner.on(",").join(categories)));
 			for (String string : categories) {
-				db.putTitle(pageTitle, string);
+				db.putTitle(pageTitle, string.toLowerCase().trim());
 			}
 
 			Vector<Wikilink> links = wikiPage.getLinks();
@@ -63,7 +65,7 @@ public class DBAggregateCallback extends AbstractPageCallback {
 					filteredByThreshold++;
 					continue;
 				}
-				db.putAnchor(anchorText.toLowerCase(), wikilink.link);
+				db.putAnchor(anchorText.toLowerCase().trim(), wikilink.link);
 			}
 		} catch (SQLiteException e) {
 			e.printStackTrace();

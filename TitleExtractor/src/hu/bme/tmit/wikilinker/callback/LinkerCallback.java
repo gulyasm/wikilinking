@@ -90,16 +90,7 @@ public class LinkerCallback extends AbstractPageCallback {
 		toks = toksTemp.toArray(new String[toksTemp.size()]);
 		/* Eliminate duplicate occurrences */
 		Set<String> tokenSet = Sets.newHashSet(toks);
-		
-		/* Process the page along toks array*/
-		/*for (int i = 0; i < toks.length; i++) {
-			Anchor anchor = null;
-			try {
-				anchor = db.getAnchor(toks[i]);
-			} catch (SQLiteException e) {
-				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
-			}*/
-		
+				
 		/* Process the page along tokenSet set*/
 		
 		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
@@ -109,11 +100,11 @@ public class LinkerCallback extends AbstractPageCallback {
 			} catch (SQLiteException e) {
 				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 			}
-			// LOGGER.i(MessageFormat.format("Anchor tested: {0}. Result: {1}",
-			// toks[i], anchor == null ? "NO" : "FOUND"));
 			if (anchor == null) {
 				continue;
 			}
+			LOGGER.i("----------------- New Link -----------------");
+			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
 			Page target = null;
 			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
@@ -127,6 +118,7 @@ public class LinkerCallback extends AbstractPageCallback {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
 				if(querypage != null) {
+					LOGGER.w(MessageFormat.format("querypage found: {0}", querypage));
 					double sim = similarity(page.getCategories(), querypage.getCategories());
 					if(sim > -1) hits.add(new Hit(querypage, sim));
 					maxsim = sim;
@@ -134,7 +126,6 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 			Collections.sort(hits);
 			if(maxsim > -1){
-				LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
 				LOGGER.i(MessageFormat.format("Best rank: {0}", hits.get(0)));
 			}
 		}

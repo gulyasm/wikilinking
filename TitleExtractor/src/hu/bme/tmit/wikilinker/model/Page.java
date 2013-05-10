@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
@@ -66,6 +67,10 @@ public class Page {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(Page.class).add("name", name).toString();
+		return Objects
+				.toStringHelper(Page.class)
+				.add("name", name)
+				.add("categories", Joiner.on(",").join(categories))
+				.toString();
 	}
 }
