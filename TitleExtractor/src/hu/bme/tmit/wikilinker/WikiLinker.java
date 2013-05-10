@@ -9,6 +9,8 @@ import hu.bme.tmit.wikilinker.db.TitlesTable;
 import hu.bme.tmit.wikilinker.logger.Logger;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -16,6 +18,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Stopwatch;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import edu.jhu.nlp.wikipedia.WikiXMLParser;
@@ -25,6 +28,7 @@ public class WikiLinker {
 
 	private static final Logger LOG = new Logger(WikiLinker.class);
 	public static int logInterval = -1;
+	private static String outputPath;
 
 	public static void main(String[] args) {
 		if (args.length < 2 || !isValidCommand(args[0])) {
@@ -44,8 +48,18 @@ public class WikiLinker {
 					// Do nothing. logInterval stays as it was.
 				}
 			}
+			if (actualParam.startsWith("-o")) {
+				outputPath = args[i + 1];
+			}
+			if (actualParam.startsWith("-test")) {
+			}
+			if (actualParam.startsWith("-gs")) {
+			}
 		}
-		if (paths == null && !"index".equals(command)) {
+		if (paths == null && (!"index".equals(command) || !"test".equals(command))) {
+			exitWithError();
+		}
+		if ("test".equals(command)) {
 			exitWithError();
 		}
 		WikiLinker extractor = new WikiLinker();
@@ -61,10 +75,17 @@ public class WikiLinker {
 		case "index":
 			extractor.createIndex();
 			break;
+		case "test":
+			test();
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown command");
 		}
 		exit();
+	}
+
+	private static void test() {
+
 	}
 
 	private static void exitWithError() {
@@ -89,7 +110,7 @@ public class WikiLinker {
 			return false;
 		}
 		return "extract".equalsIgnoreCase(command) || "link".equalsIgnoreCase(command)
-				|| "index".equalsIgnoreCase(command);
+				|| "index".equalsIgnoreCase(command) || "test".equalsIgnoreCase(command);
 	}
 
 	public static void printUsage() {
@@ -98,6 +119,7 @@ public class WikiLinker {
 		bld.append("Command").append("\n");
 		bld.append("\t").append("extract").append("\t").append("Extract anchors from dump.").append("\n");
 		bld.append("\t").append("index").append("\t").append("Creates index on DB tables").append("\n");
+		bld.append("\t").append("test").append("\t").append("Creates index on DB tables").append("\n");
 		bld.append("\t").append("link").append("\t").append("Link a Wikipedia page.").append("\n");
 		bld.append("Parameters").append("\n");
 		bld
@@ -112,6 +134,13 @@ public class WikiLinker {
 				.append("-l <logInterval>")
 				.append("\t")
 				.append("Callback logs progress every <logInterval> page")
+				.append("\n");
+		bld
+				.append("\t")
+				.append("-o <pathToOutput>")
+				.append("\t")
+				.append(
+						"The linking result is printid to the file, defined by this path. If ommited, the standard System.out is used.")
 				.append("\n");
 		System.out.println(bld.toString());
 	}
@@ -153,7 +182,18 @@ public class WikiLinker {
 		WikiXMLParser parser = WikiXMLParserFactory.getSAXParser(path);
 		try {
 			Logger.setLevel(Logger.INFO);
-			AbstractPageCallback callback = new LinkerCallback();
+			OutputStream stream = null;
+			if (Strings.isNullOrEmpty(outputPath)) {
+				stream = System.out;
+			} else {
+				File file = new File(outputPath);
+				if (!file.exists()) {
+					LOG.i("Creating new file " + file.getAbsolutePath());
+					file.createNewFile();
+				}
+				stream = new FileOutputStream(file);
+			}
+			AbstractPageCallback callback = new LinkerCallback(stream);
 
 			parser.setPageCallback(callback);
 			callback.setLogPagesInterval(logInterval);

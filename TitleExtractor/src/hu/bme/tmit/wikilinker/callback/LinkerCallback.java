@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,8 +46,10 @@ public class LinkerCallback extends AbstractPageCallback {
 	private SQLite db;
 	private Predicate<String> predicate;
 	private Sanitezer sanitezer;
+	private PrintWriter outputStream;
 
-	public LinkerCallback() throws FileNotFoundException, IOException, SQLiteException {
+	public LinkerCallback(OutputStream stream) throws FileNotFoundException, IOException, SQLiteException {
+		this.outputStream = new PrintWriter(stream);
 		TokenizerModel tokenModel = null;
 		try (FileInputStream modelStream = new FileInputStream("resources\\en-token.bin")) {
 			tokenModel = new TokenizerModel(modelStream);
@@ -90,9 +94,9 @@ public class LinkerCallback extends AbstractPageCallback {
 		toks = toksTemp.toArray(new String[toksTemp.size()]);
 		/* Eliminate duplicate occurrences */
 		Set<String> tokenSet = Sets.newHashSet(toks);
-				
-		/* Process the page along tokenSet set*/
-		
+
+		/* Process the page along tokenSet set */
+
 		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
 			Anchor anchor = null;
 			try {
@@ -105,41 +109,48 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 			LOGGER.i("----------------- New Link -----------------");
 			LOGGER.i(MessageFormat.format("Anchor found: {0}", anchor));
-			Page target = null;
 			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
 			List<Hit> hits = new ArrayList<>();
 			Page querypage = null;
-			for (Iterator<Page> it = titles.iterator(); it.hasNext();){
+			for (Iterator<Page> it = titles.iterator(); it.hasNext();) {
 				Page title = it.next();
-				try{
+				try {
 					querypage = db.getPage(title.getName().toLowerCase().trim());
-				} catch(SQLiteException e) {
+				} catch (SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
-				if(querypage != null) {
+				if (querypage != null) {
 					LOGGER.w(MessageFormat.format("querypage found: {0}", querypage));
 					double sim = similarity(page.getCategories(), querypage.getCategories());
-					if(sim > -1) hits.add(new Hit(querypage, sim));
+					if (sim > -1) hits.add(new Hit(querypage, sim));
 					maxsim = sim;
 				}
 			}
 			Collections.sort(hits);
-			if(maxsim > -1){
-				LOGGER.i(MessageFormat.format("Best rank: {0}", hits.get(0)));
+			if (maxsim > -1) {
+				outputStream.println(MessageFormat.format(
+						"{0}\t{1}",
+						hits.get(0).getOutputFormat(),
+						anchor.getOutputFormat()));
 			}
 		}
 
 	}
-	
-	private double similarity(Vector<String> test, List<Category> retrieved){
+
+	@Override
+	public void onFinished() {
+		super.onFinished();
+		outputStream.close();
+	}
+
+	private double similarity(Vector<String> test, List<Category> retrieved) {
 		int s = test.size();
-		if(s == 0) return 0.0;
+		if (s == 0) return 0.0;
 		double count = 0.0;
-		for(int i = 0; i < s; i++)
-			if(retrieved.contains(test.get(i)))
-				count += 1.0;
-		return (double)count/s;
+		for (int i = 0; i < s; i++)
+			if (retrieved.contains(test.get(i))) count += 1.0;
+		return (double) count / s;
 	}
 
 	private class LinkerPredicate implements Predicate<String> {

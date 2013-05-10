@@ -51,4 +51,8 @@ public class Anchor {
 				.toString();
 	}
 
+	public String getOutputFormat() {
+		return toString();
+	}
+
 }

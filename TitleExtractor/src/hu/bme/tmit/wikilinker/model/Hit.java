@@ -27,4 +27,8 @@ public class Hit implements Comparable<Hit>{
 				.add("rank", rank)
 				.toString();
 	}
+
+	public String getOutputFormat() {
+		return toString();
+	}
 }
