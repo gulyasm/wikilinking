@@ -99,15 +99,16 @@ public class LinkerCallback extends AbstractPageCallback {
 		/* Process the page along tokenSet set */
 		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
 			Anchor anchor = null;
+			String token = istr.next();
 			try {
-				anchor = db.getAnchor(istr.next());
+				anchor = db.getAnchor(token);
 			} catch (SQLiteException e) {
 				LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 			}
 			if (anchor == null) {
 				continue;
 			}
-			System.out.println("Anchor found: " + anchor.getName().toUpperCase());
+			System.out.println("Anchor found: " + anchor.getName());
 			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
 			List<Hit> hits = new ArrayList<>();
@@ -117,7 +118,7 @@ public class LinkerCallback extends AbstractPageCallback {
 				double sim = 0.0;
 				double rld = 0.0;
 				Page hitPage = null;
-				int ld = LevenshteinDistance.compute(page.getTitle(), title.getName());
+				int ld = LevenshteinDistance.compute(token, title.getName());
 				
 				// Reverse Levenshtein Distance
 				if (ld != 0)
@@ -141,7 +142,7 @@ public class LinkerCallback extends AbstractPageCallback {
 			Collections.sort(hits);
 			Collections.reverse(hits);
 			for(int i = 0; i < hits.size(); i++)
-				System.out.println(i + ". hit: " + hits.get(i).getPage().getName());
+				System.out.println((i+1) + ". hit: " + hits.get(i).getPage().getName());
 			if (maxsim > -1) {
 				outputStream.println(MessageFormat.format(
 						"{0}\t{1}",
@@ -150,7 +151,6 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 		}
 		System.out.println("--------------------------- Hits ---------------------------");
-
 	}
 
 	@Override
