@@ -119,8 +119,8 @@ public class SQLite {
 	}
 
 	public void putAnchor(String anchor, String target) throws SQLiteException {
-		tempMap.put(AnchorsTable.FIELD_ANCHOR, anchor);
-		tempMap.put(AnchorsTable.FIELD_TITLE, target);
+		tempMap.put(AnchorsTable.FIELD_ANCHOR, anchor.toLowerCase().trim());
+		tempMap.put(AnchorsTable.FIELD_TITLE, target.toLowerCase().trim());
 		insert(AnchorsTable.TABLE_NAME, tempMap);
 		tempMap.clear();
 	}
