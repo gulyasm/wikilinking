@@ -117,7 +117,10 @@ public class LinkerCallback extends AbstractPageCallback {
 				Page title = it.next();
 				double sim = 0.0;
 				double rld = 0.0;
+				double substr = 0.0;
 				Page hitPage = null;
+				if (token.indexOf(title.getName()) != -1 || title.getName().indexOf(token) != -1)
+						substr += 0.5;
 				int ld = LevenshteinDistance.compute(token, title.getName());
 				
 				// Reverse Levenshtein Distance
@@ -131,13 +134,16 @@ public class LinkerCallback extends AbstractPageCallback {
 				} catch (SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
+				
 				if (querypage != null) {
 					sim = similarity(page.getCategories(), querypage.getCategoryNames());
 					hitPage = querypage;
 				}
-				else hitPage = new Page(title.getName(), title.getUrl());
-				
-				hits.add(new Hit(hitPage, sim + rld));
+				else
+					hitPage = new Page(title.getName(), title.getUrl());
+								
+				if (hitPage.getName().compareTo(page.getTitle().toLowerCase().trim()) != 0)
+					hits.add(new Hit(hitPage, sim + rld + substr));
 			}
 			Collections.sort(hits);
 			Collections.reverse(hits);
