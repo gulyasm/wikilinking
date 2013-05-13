@@ -12,6 +12,14 @@ public class Hit implements Comparable<Hit>{
 		this.rank = similarity;
 	}
 
+	public double getRank(){
+		return rank;
+	}
+	
+	public Page getPage(){
+		return page;
+	}
+	
 	@Override
 	public int compareTo(Hit h) {
 		if(this.rank < h.rank) return -1;

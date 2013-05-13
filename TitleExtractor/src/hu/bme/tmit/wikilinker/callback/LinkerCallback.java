@@ -7,6 +7,7 @@ import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.model.Anchor;
 import hu.bme.tmit.wikilinker.model.Category;
 import hu.bme.tmit.wikilinker.model.Hit;
+import hu.bme.tmit.wikilinker.model.LevenshteinDistance;
 import hu.bme.tmit.wikilinker.model.Page;
 
 import java.io.File;
@@ -106,27 +107,41 @@ public class LinkerCallback extends AbstractPageCallback {
 			if (anchor == null) {
 				continue;
 			}
-			System.out.println("Anchor found: " + anchor.getName());
+			System.out.println("Anchor found: " + anchor.getName().toUpperCase());
 			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
 			List<Hit> hits = new ArrayList<>();
 			Page querypage = null;
 			for (Iterator<Page> it = titles.iterator(); it.hasNext();) {
 				Page title = it.next();
+				double sim = 0.0;
+				double rld = 0.0;
+				Page hitPage = null;
+				int ld = LevenshteinDistance.compute(page.getTitle(), title.getName());
+				
+				// Reverse Levenshtein Distance
+				if (ld != 0)
+					rld = (double) 1.0/ld;
+				else
+					rld = 1.0;
+				
 				try {
 					querypage = db.getPage(title.getName().toLowerCase().trim());
 				} catch (SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
 				if (querypage != null) {
-					System.out.println("querypage found: " + querypage.getName());
-					System.out.println("---------------------------------------");
-					double sim = similarity(page.getCategories(), querypage.getCategories());
-					if (sim > -1) hits.add(new Hit(querypage, 0.0));
-					maxsim = sim;
+					sim = similarity(page.getCategories(), querypage.getCategoryNames());
+					hitPage = querypage;
 				}
+				else hitPage = new Page(title.getName(), title.getUrl());
+				
+				hits.add(new Hit(hitPage, sim + rld));
 			}
 			Collections.sort(hits);
+			Collections.reverse(hits);
+			for(int i = 0; i < hits.size(); i++)
+				System.out.println(i + ". hit: " + hits.get(i).getPage().getName());
 			if (maxsim > -1) {
 				outputStream.println(MessageFormat.format(
 						"{0}\t{1}",
@@ -144,7 +159,7 @@ public class LinkerCallback extends AbstractPageCallback {
 		outputStream.close();
 	}
 
-	private double similarity(Vector<String> test, List<Category> retrieved) {
+	private double similarity(Vector<String> test, List<String> retrieved) {
 		int s = test.size();
 		if (s == 0) return 0.0;
 		double count = 0.0;
