@@ -31,7 +31,7 @@ public class WikiLinker {
 	private static String outputPath;
 
 	public static void main(String[] args) {
-		if (args.length < 2 || !isValidCommand(args[0])) {
+		if (args.length < 1 || !isValidCommand(args[0])) {
 			exitWithError();
 		}
 		ArrayList<String> paths = null;
@@ -56,7 +56,8 @@ public class WikiLinker {
 			if (actualParam.startsWith("-gs")) {
 			}
 		}
-		if (paths == null && (!"index".equals(command) || !"test".equals(command))) {
+		
+		if (paths == null && ("extract".equals(command) || "link".equals(command))) {
 			exitWithError();
 		}
 		if ("test".equals(command)) {
