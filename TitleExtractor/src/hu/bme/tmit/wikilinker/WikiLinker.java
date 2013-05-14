@@ -7,10 +7,21 @@ import hu.bme.tmit.wikilinker.db.AnchorsTable;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.db.TitlesTable;
 import hu.bme.tmit.wikilinker.logger.Logger;
+import hu.bme.tmit.wikilinker.model.Anchor;
+import hu.bme.tmit.wikilinker.model.Link;
+import hu.bme.tmit.wikilinker.model.Page;
 
+import java.util.List;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -59,9 +70,6 @@ public class WikiLinker {
 		if (paths == null && (!"index".equals(command) || !"test".equals(command))) {
 			exitWithError();
 		}
-		if ("test".equals(command)) {
-			exitWithError();
-		}
 		WikiLinker extractor = new WikiLinker();
 		switch (command) {
 		case "extract":
@@ -76,7 +84,13 @@ public class WikiLinker {
 			extractor.createIndex();
 			break;
 		case "test":
-			test();
+			try {
+				test();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown command");
@@ -84,8 +98,48 @@ public class WikiLinker {
 		exit();
 	}
 
-	private static void test() {
-
+	private static void test() throws FileNotFoundException, IOException {
+		double precision = 0;
+		double recall = 0;
+		
+		String[] testlink = null;
+		String[] pagelink = null;
+		String[] titleList = null;
+		List<Link> testAnchors = new ArrayList<>();
+		List<Link> pageAnchors = new ArrayList<>();
+		
+		InputStream pageFIS = new FileInputStream("resources\\linker_output.txt");
+		BufferedReader pageBR = new BufferedReader(new InputStreamReader(pageFIS, Charset.forName("UTF-8")));
+		String linkline = null;
+		while((linkline = pageBR.readLine()) != null){
+			pagelink = linkline.split(" ");
+			Link a = new Link(pagelink[0]);
+			titleList = pagelink[1].split(",");
+			for(String title : titleList){
+				a.addTitle(title);
+			}
+			pageAnchors.add(a);
+		}
+		
+		InputStream testFIS = new FileInputStream("resources\\testpage_links.txt");
+		BufferedReader testBR = new BufferedReader(new InputStreamReader(testFIS, Charset.forName("UTF-8")));
+		while((linkline = testBR.readLine()) != null){
+			testlink = linkline.split(" ");
+			Link a = new Link(testlink[0]);
+			a.addTitle(testlink[1]);
+			testAnchors.add(a);
+		}
+		
+		for(Link tl : testAnchors){
+			for(Link pl : pageAnchors){
+				if(tl.getAnchor().compareTo(pl.getAnchor()) == 0)
+					if(pl.getTitles().contains(tl.getTitles().get(0))){
+						precision += 1.0;
+					}
+			}
+		}
+		precision /= testAnchors.size();
+		System.out.println("Precision: " + precision);		
 	}
 
 	private static void exitWithError() {

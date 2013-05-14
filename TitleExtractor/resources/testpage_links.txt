@@ -1,0 +1,7 @@
+anchor3 page2
+anchor2 page2
+anchor5 page3
+anchor7 page5
+anchor4 page6
+anchor1 page4
+anchor6 page1

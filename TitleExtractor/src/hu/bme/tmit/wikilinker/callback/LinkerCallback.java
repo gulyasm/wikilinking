@@ -147,16 +147,15 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 			Collections.sort(hits);
 			Collections.reverse(hits);
-			for(int i = 0; i < hits.size(); i++)
-				System.out.println((i+1) + ". hit: " + hits.get(i).getPage().getName());
-			if (maxsim > -1) {
-				outputStream.println(MessageFormat.format(
-						"{0}\t{1}",
-						hits.get(0).getOutputFormat(),
-						anchor.getOutputFormat()));
+			
+			// Format output: anchor title1,title2,...
+			outputStream.print(anchor.getName() + " ");
+			for(int i = 0; i < hits.size(); i++){
+				outputStream.print(hits.get(i).getPage().getName());
+				if(i < hits.size()-1) outputStream.print(",");
 			}
+			if(istr.hasNext()) outputStream.println();
 		}
-		System.out.println("--------------------------- Hits ---------------------------");
 	}
 
 	@Override
