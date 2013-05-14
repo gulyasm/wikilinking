@@ -100,6 +100,9 @@ public class LinkerCallback extends AbstractPageCallback {
 		for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext();) {
 			Anchor anchor = null;
 			String token = istr.next();
+			if (Strings.isNullOrEmpty(token)) {
+				continue;
+			}
 			try {
 				anchor = db.getAnchor(token);
 			} catch (SQLiteException e) {
@@ -119,36 +122,31 @@ public class LinkerCallback extends AbstractPageCallback {
 				double rld = 0.0;
 				double substr = 0.0;
 				Page hitPage = null;
-				if (token.indexOf(title.getName()) != -1 || title.getName().indexOf(token) != -1)
-						substr += 0.5;
+				if (token.indexOf(title.getName()) != -1 || title.getName().indexOf(token) != -1) substr += 0.5;
 				int ld = LevenshteinDistance.compute(token, title.getName());
-				
+
 				// Reverse Levenshtein Distance
-				if (ld != 0)
-					rld = (double) 1.0/ld;
-				else
-					rld = 1.0;
-				
+				if (ld != 0) rld = (double) 1.0 / ld;
+				else rld = 1.0;
+
 				try {
 					querypage = db.getPage(title.getName().toLowerCase().trim());
 				} catch (SQLiteException e) {
 					LOGGER.w("SQL Error occured. Reason: " + e.getMessage());
 				}
-				
+
 				if (querypage != null) {
 					sim = similarity(page.getCategories(), querypage.getCategoryNames());
 					hitPage = querypage;
-				}
-				else
-					hitPage = new Page(title.getName(), title.getUrl());
-								
+				} else hitPage = new Page(title.getName(), title.getUrl());
+
 				if (hitPage.getName().compareTo(page.getTitle().toLowerCase().trim()) != 0)
 					hits.add(new Hit(hitPage, sim + rld + substr));
 			}
 			Collections.sort(hits);
 			Collections.reverse(hits);
-			for(int i = 0; i < hits.size(); i++)
-				System.out.println((i+1) + ". hit: " + hits.get(i).getPage().getName());
+			for (int i = 0; i < hits.size(); i++)
+				System.out.println((i + 1) + ". hit: " + hits.get(i).getPage().getName());
 			if (maxsim > -1) {
 				outputStream.println(MessageFormat.format(
 						"{0}\t{1}",
