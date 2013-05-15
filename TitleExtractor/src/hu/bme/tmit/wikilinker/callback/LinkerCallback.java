@@ -111,7 +111,6 @@ public class LinkerCallback extends AbstractPageCallback {
 				continue;
 			}
 			System.out.println("Anchor found: " + anchor.getName());
-			double maxsim = -1.0; //
 			Set<Page> titles = anchor.getTitles();
 			List<Hit> hits = new ArrayList<>();
 			Page querypage = null;
@@ -144,15 +143,15 @@ public class LinkerCallback extends AbstractPageCallback {
 			}
 			Collections.sort(hits);
 			Collections.reverse(hits);
-			
+
 			// Format output: anchor : title1,title2,...
-			if(hits.size() > 0){
+			if (hits.size() > 0) {
 				outputStream.print(anchor.getName() + " : ");
-				for(int i = 0; i < hits.size(); i++){
+				for (int i = 0; i < hits.size(); i++) {
 					outputStream.print(hits.get(i).getPage().getName());
-					if(i < hits.size()-1) outputStream.print(",");
+					if (i < hits.size() - 1) outputStream.print(",");
 				}
-				if(istr.hasNext()) outputStream.println();
+				if (istr.hasNext()) outputStream.println();
 			}
 		}
 	}

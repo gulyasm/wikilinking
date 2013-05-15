@@ -87,9 +87,7 @@ public class WikiLinker {
 		case "test":
 			try {
 				test();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			break;
@@ -118,7 +116,9 @@ public class WikiLinker {
 		try {
 			while ((linkline = pageBR.readLine()) != null) {
 				pagelink = linkline.split(" : ");
-				if (pagelink.length != 2) exitWithError();
+				if (pagelink.length < 2) {
+					exitWithError();
+				}
 				Link a = new Link(pagelink[0]);
 				titleList = pagelink[1].split(",");
 				for (String title : titleList) {
@@ -141,7 +141,7 @@ public class WikiLinker {
 
 			while ((linkline = testBR.readLine()) != null) {
 				testlink = linkline.split(" : ");
-				if (testlink.length != 2) exitWithError();
+				if (testlink.length != 2) exit();
 				Link a = new Link(testlink[0]);
 				a.addTitle(testlink[1]);
 				testAnchors.add(a);
@@ -162,8 +162,8 @@ public class WikiLinker {
 		}
 		recall /= testAnchors.size();
 		precision /= pageAnchors.size();
-		System.out.println("Recall: " + recall * 100 + " %");
-		System.out.println("Precision: " + precision * 100 + " %");
+		LOG.i(MessageFormat.format("Recall:\t{0,number,#.##%}", recall));
+		LOG.i(MessageFormat.format("Precision:\t{0,number,#.##%}", precision));
 	}
 
 	private static void exitWithError() {
