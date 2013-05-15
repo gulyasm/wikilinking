@@ -5,7 +5,6 @@ import hu.bme.tmit.wikilinker.Sanitezer;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.logger.Logger;
 import hu.bme.tmit.wikilinker.model.Anchor;
-import hu.bme.tmit.wikilinker.model.Category;
 import hu.bme.tmit.wikilinker.model.Hit;
 import hu.bme.tmit.wikilinker.model.LevenshteinDistance;
 import hu.bme.tmit.wikilinker.model.Page;

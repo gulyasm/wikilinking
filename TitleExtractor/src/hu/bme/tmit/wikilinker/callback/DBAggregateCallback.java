@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Vector;
 
 import com.almworks.sqlite4java.SQLiteException;
-import com.google.common.base.Joiner;
 
 import edu.jhu.nlp.wikipedia.WikiPage;
 import edu.jhu.nlp.wikipedia.Wikilink;

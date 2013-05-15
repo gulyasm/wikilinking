@@ -7,11 +7,8 @@ import hu.bme.tmit.wikilinker.db.AnchorsTable;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.db.TitlesTable;
 import hu.bme.tmit.wikilinker.logger.Logger;
-import hu.bme.tmit.wikilinker.model.Anchor;
 import hu.bme.tmit.wikilinker.model.Link;
-import hu.bme.tmit.wikilinker.model.Page;
 
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +21,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
