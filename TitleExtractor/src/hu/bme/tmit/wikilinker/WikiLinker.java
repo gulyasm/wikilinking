@@ -39,7 +39,7 @@ public class WikiLinker {
 
 	private static final Logger LOG = new Logger(WikiLinker.class);
 	public static int logInterval = -1;
-	private static String outputPath;
+	private static String outputPath, testPath, refPath;
 
 	public static void main(String[] args) {
 		if (args.length < 1 || !isValidCommand(args[0])) {
@@ -63,11 +63,13 @@ public class WikiLinker {
 				outputPath = args[i + 1];
 			}
 			if (actualParam.startsWith("-test")) {
+				testPath = args[i + 1];
 			}
-			if (actualParam.startsWith("-gs")) {
+			if (actualParam.startsWith("-ref")) {
+				refPath = args[i + 1];
 			}
 		}
-		
+
 		if (paths == null && ("extract".equals(command) || "link".equals(command))) {
 			exitWithError();
 		}
@@ -102,50 +104,68 @@ public class WikiLinker {
 	private static void test() throws FileNotFoundException, IOException {
 		double precision = 0;
 		double recall = 0;
-		
+
 		String[] testlink = null;
 		String[] pagelink = null;
 		String[] titleList = null;
 		List<Link> testAnchors = new ArrayList<>();
 		List<Link> pageAnchors = new ArrayList<>();
-		
-		InputStream pageFIS = new FileInputStream("resources\\linker_output.txt");
+
+		if (Strings.isNullOrEmpty(testPath)) {
+			testPath = "resources\\linker_output.txt";
+		}
+		InputStream pageFIS = new FileInputStream(testPath);
 		BufferedReader pageBR = new BufferedReader(new InputStreamReader(pageFIS, Charset.forName("UTF-8")));
 		String linkline = null;
-		while((linkline = pageBR.readLine()) != null){
-			pagelink = linkline.split(" : ");
-			if(pagelink.length != 2) exitWithError();
-			Link a = new Link(pagelink[0]);
-			titleList = pagelink[1].split(",");
-			for(String title : titleList){
-				a.addTitle(title);
+		try {
+			while ((linkline = pageBR.readLine()) != null) {
+				pagelink = linkline.split(" : ");
+				if (pagelink.length != 2) exitWithError();
+				Link a = new Link(pagelink[0]);
+				titleList = pagelink[1].split(",");
+				for (String title : titleList) {
+					a.addTitle(title);
+				}
+				pageAnchors.add(a);
 			}
-			pageAnchors.add(a);
+		} finally {
+			if (pageBR != null) {
+				pageBR.close();
+			}
 		}
-		
-		InputStream testFIS = new FileInputStream("resources\\testpage_links.txt");
+
+		if (Strings.isNullOrEmpty(refPath)) {
+			refPath = "resources\\testpage_links.txt";
+		}
+		InputStream testFIS = new FileInputStream(refPath);
 		BufferedReader testBR = new BufferedReader(new InputStreamReader(testFIS, Charset.forName("UTF-8")));
-		while((linkline = testBR.readLine()) != null){
-			testlink = linkline.split(" : ");
-			if(testlink.length != 2) exitWithError();
-			Link a = new Link(testlink[0]);
-			a.addTitle(testlink[1]);
-			testAnchors.add(a);
+		try {
+
+			while ((linkline = testBR.readLine()) != null) {
+				testlink = linkline.split(" : ");
+				if (testlink.length != 2) exitWithError();
+				Link a = new Link(testlink[0]);
+				a.addTitle(testlink[1]);
+				testAnchors.add(a);
+			}
+		} finally {
+			if (testBR != null) {
+				testBR.close();
+			}
 		}
-		
-		for(Link tl : testAnchors){
-			for(Link pl : pageAnchors){
-				if(tl.getAnchor().compareTo(pl.getAnchor()) == 0)
-					if(pl.getTitles().contains(tl.getTitles().get(0))){
-						recall += 1.0;
-						precision += 1.0;
-					}
+
+		for (Link tl : testAnchors) {
+			for (Link pl : pageAnchors) {
+				if (tl.getAnchor().compareTo(pl.getAnchor()) == 0) if (pl.getTitles().contains(tl.getTitles().get(0))) {
+					recall += 1.0;
+					precision += 1.0;
+				}
 			}
 		}
 		recall /= testAnchors.size();
 		precision /= pageAnchors.size();
-		System.out.println("Recall: " + recall*100 + " %");
-		System.out.println("Precision: " + precision*100 + " %");
+		System.out.println("Recall: " + recall * 100 + " %");
+		System.out.println("Precision: " + precision * 100 + " %");
 	}
 
 	private static void exitWithError() {
