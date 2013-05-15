@@ -1,0 +1,82 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.8/ http://www.mediawiki.org/xml/export-0.8.xsd" version="0.8" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikipedia</sitename>
+    <base>http://en.wikipedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.22wmf3</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Wikipedia</namespace>
+      <namespace key="5" case="first-letter">Wikipedia talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Portal</namespace>
+      <namespace key="101" case="first-letter">Portal talk</namespace>
+      <namespace key="108" case="first-letter">Book</namespace>
+      <namespace key="109" case="first-letter">Book talk</namespace>
+      <namespace key="446" case="first-letter">Education Program</namespace>
+      <namespace key="447" case="first-letter">Education Program talk</namespace>
+      <namespace key="710" case="first-letter">TimedText</namespace>
+      <namespace key="711" case="first-letter">TimedText talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Infocommunications</title>
+    <ns>0</ns>
+    <id>38563478</id>
+    <revision>
+      <id>549402400</id>
+      <parentid>549311443</parentid>
+      <timestamp>2013-04-08T21:54:14Z</timestamp>
+      <contributor>
+        <username>Yobot</username>
+        <id>7328338</id>
+      </contributor>
+      <minor/>
+      <comment>/* References */[[WP:CHECKWIKI]] error fixes using [[Project:AWB|AWB]] (9075)</comment>
+      <text xml:space="preserve" bytes="6557">'''Infocommunications''' is the natural expansion of ''[[telecommunications]]'' with ''information processing'' and ''content handling'' functions including all types of ''[[electronic communications]]'' (fixed and mobile telephony, data communications, media communications, broadcasting, etc.) on a common digital technology base, mainly through ''Internet technology''.&lt;ref name=&quot;ref01&quot;&gt;Sallai, Gy.: Defining Infocommunications and Related Terms. Acta Polytechnica Hungarica (ISSN 1785-8860), Vol. 9, No. 6, 2012. pp. 5-15. http://www.uni-obuda.hu/journal/Sallai_38.pdf&lt;/ref&gt; Detailed information on ''infocommunications'' and the related terms is linked [http://infocom.tmit.bme.hu here].
+
+==History==
+The term Infocommunications, or in short form, Infocom(s) or Infocomm(s) first emerged in the beginning of eighties at scientific conferences and then was gradually adopted in the 1990s by the players of telecommunications sector, including manufacturers, service providers, regulatory authorities and international organizations to clearly express their participation in the convergence process of the telecommunications and information technology sectors. The convergence process is triggered by the huge scale development of digital technology. Digital technology has unified, Internet technology radically reshaped telecommunications, integrated information processing and content management functions,&lt;ref name=&quot;ref02&quot;&gt;International Telecommunication Union (ITU):  World Communications - Going global with a networked society. Editor: G. L. Franco Novara, 1991, Italy&lt;/ref&gt;&lt;ref name=&quot;ref03&quot;&gt;International Telecommunication Union: Convergence and Regulation, Volume of Trends in Telecommunication Reform, 1999, Geneva&lt;/ref&gt; ,.&lt;ref name=&quot;ref04&quot;&gt;Krafft, J.: Profiting in the Info-Coms Industry in the Age of Broadband: Lessons and New Considerations. Technological Forecasting &amp; Social Change, Vol. 77, pp. 265-278, 2010&lt;/ref&gt;&lt;ref name=&quot;ref05&quot;&gt;World Economic Forum: Digital Ecosystem - Convergence between IT, Telecoms, Media and Entertainment: Scenarios to 2015. World Scenario Series, 2007 http://www3.weforum.org/docs/WEF_DigitalEcosystem_Scenario2015_ExecutiveSummary_2010.pdf&lt;/ref&gt; For the evolutionary phases and value-chain models from the separated communication subsectors through the unification of telecommunications to the infocommunications, and further ([[Cognitive infocommunications]],&lt;ref name=&quot;ref06&quot;&gt;Baranyi, P., Csapó, A.: Definition and Synergies of Cognitive Infocommunications. Acta Polytechnica Hungarica (ISSN 1785-8860), Vol. 9, No. 1, 2012. pp. 67-83 http://www.uni-obuda.hu/journal/Baranyi_Csapo_33.pdf&lt;/ref&gt; [[Internet of Things]], [[Future Internet]] &lt;ref name=&quot;ref07&quot;&gt;The Future Internet – Future Internet Assembly 2012: From Promises to Reality (ISBN 978-3-642-30240-4), Edited by Alvarez, F. et al., Aalborg, 9–11 May 2012, LNCS 7281, 2012, Springer, Heidelberg&lt;/ref&gt;), see.&lt;ref name=&quot;ref01&quot;&gt;Sallai, Gy.: Defining Infocommunications and Related Terms. Acta Polytechnica Hungarica (ISSN 1785-8860), Vol. 9, No. 6, 2012. pp. 5-15.&lt;/ref&gt;
+
+==Related terms==
+The term Infocommunications is also used in politics in a wider sense as a shorter form of information and communication(s) technology (ICT).
+
+The terms info-com(s) and info-communications (with a hyphen) are also used to express the integration of the information technology (IT) and (tele)communication sectors,&lt;ref name=&quot;ref04&quot;&gt;Krafft, J.: Profiting in the Info-Coms Industry in the Age of Broadband: Lessons and New Considerations. Technological Forecasting &amp; Social Change, Vol. 77, pp. 265-278, 2010&lt;/ref&gt; or simply to interpret the abbreviation ICT.
+
+The term ''[[Information and communications technology|Information and Communication(s) Technology (ICT)]]'' has been defined as an extended synonym for information technology (IT) to emphasize the integration with (tele)communications. Content published in mass communication media such as printed, audio-visual and online contents and related services are not considered as ICT products, but are referred to as the ''Media &amp; Content products''.&lt;ref name=&quot;ref08&quot;&gt;OECD: Guide to Measuring the Information Society 2011 (ISBN 978-92-64-09598-4), p. 206, August 2011&lt;/ref&gt;
+
+The abbreviation ''TIM'', as the ''Telecom IT Media'' sector is used to express the full integration of the Telecommunications, IT and Media &amp; Content sectors.&lt;ref name=&quot;ref05&quot;&gt;World Economic Forum: Digital Ecosystem - Convergence between IT, Telecoms, Media and Entertainment: Scenarios to 2015. World Scenario Series, 2007 http://www3.weforum.org/docs/WEF_DigitalEcosystem_Scenario2015_ExecutiveSummary_2010.pdf&lt;/ref&gt; As well, the abbreviation TIME, as the Telecom IT/Internet Media &amp; Entertainment/Edutainment sector is used to express the integration of these sectors.
+
+Other related terms are presented in,&lt;ref name=&quot;ref01&quot;&gt;Sallai, Gy.: Defining Infocommunications and Related Terms. Acta Polytechnica Hungarica (ISSN 1785-8860), Vol. 9, No. 6, 2012. pp. 5-15.&lt;/ref&gt;&lt;ref name=&quot;ref05&quot;&gt;World Economic Forum: Digital Ecosystem - Convergence between IT, Telecoms, Media and Entertainment: Scenarios to 2015. World Scenario Series, 2007 http://www3.weforum.org/docs/WEF_DigitalEcosystem_Scenario2015_ExecutiveSummary_2010.pdf&lt;/ref&gt; and ''[http://infocom.tmit.bme.hu here]''.
+
+The relationship and position of the terms can be demonstrated by a '''digital convergence prism''' &lt;ref name=&quot;ref01&quot;&gt;Sallai, Gy.: Defining Infocommunications and Related Terms. Acta Polytechnica Hungarica (ISSN 1785-8860), Vol. 9, No. 6, 2012. pp. 5-15.&lt;/ref&gt; (Figure 1), which shows the three components (T, I, M) and their pairs and the triple combination (convergent TIM triplet) according to the rule of additive colour mixing. Assuming that telecommunications (Telecom) is blue, informatics (IT) is green and Media &amp; Content is red, then teleinformatics/telematics is cyan, telemedia/networked media is magenta, media informatics is yellow, and the convergent TIM is white. In such a way, the integrated TIM sector corresponds to the prism as a whole, the ICT sector  to the whole minus the red area (Media &amp; Content), and the Infocommunications relates to Telecom and neighbouring three areas (blue, cyan, magenta and white). That means that, for example, media informatics is a part of ICT but not part of Infocommunications.
+
+[[File:DigitalConvergencePrism.png|center|thumb|300px|&lt;div align=&quot;center&quot;&gt;Figure 1 Digital convergence prism: positioning Infocommunications&lt;/div&gt;]]
+
+==References==
+
+&lt;references /&gt;
+
+[[Category:Information technology]]</text>
+      <sha1>omtk89igo81f1tauk9tkzmje58kbtug</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+</mediawiki>
