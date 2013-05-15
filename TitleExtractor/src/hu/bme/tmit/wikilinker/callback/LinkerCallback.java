@@ -110,7 +110,6 @@ public class LinkerCallback extends AbstractPageCallback {
 			if (anchor == null) {
 				continue;
 			}
-			System.out.println("Anchor found: " + anchor.getName());
 			Set<Page> titles = anchor.getTitles();
 			List<Hit> hits = new ArrayList<>();
 			Page querypage = null;
