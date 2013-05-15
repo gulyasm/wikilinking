@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Vector;
 
 import com.almworks.sqlite4java.SQLiteException;
-import com.google.common.base.Joiner;
 
 import edu.jhu.nlp.wikipedia.WikiPage;
 import edu.jhu.nlp.wikipedia.Wikilink;
@@ -65,7 +64,7 @@ public class DBAggregateCallback extends AbstractPageCallback {
 					filteredByThreshold++;
 					continue;
 				}
-				db.putAnchor(anchorText.toLowerCase().trim(), wikilink.link);
+				db.putAnchor(anchorText, wikilink.link);
 			}
 		} catch (SQLiteException e) {
 			e.printStackTrace();

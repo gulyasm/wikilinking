@@ -7,12 +7,21 @@ import hu.bme.tmit.wikilinker.db.AnchorsTable;
 import hu.bme.tmit.wikilinker.db.SQLite;
 import hu.bme.tmit.wikilinker.db.TitlesTable;
 import hu.bme.tmit.wikilinker.logger.Logger;
+import hu.bme.tmit.wikilinker.model.Link;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -28,10 +37,10 @@ public class WikiLinker {
 
 	private static final Logger LOG = new Logger(WikiLinker.class);
 	public static int logInterval = -1;
-	private static String outputPath;
+	private static String outputPath, testPath, refPath;
 
 	public static void main(String[] args) {
-		if (args.length < 2 || !isValidCommand(args[0])) {
+		if (args.length < 1 || !isValidCommand(args[0])) {
 			exitWithError();
 		}
 		ArrayList<String> paths = null;
@@ -52,14 +61,14 @@ public class WikiLinker {
 				outputPath = args[i + 1];
 			}
 			if (actualParam.startsWith("-test")) {
+				testPath = args[i + 1];
 			}
-			if (actualParam.startsWith("-gs")) {
+			if (actualParam.startsWith("-ref")) {
+				refPath = args[i + 1];
 			}
 		}
-		if (paths == null && (!"index".equals(command) || !"test".equals(command))) {
-			exitWithError();
-		}
-		if ("test".equals(command)) {
+
+		if (paths == null && ("extract".equals(command) || "link".equals(command))) {
 			exitWithError();
 		}
 		WikiLinker extractor = new WikiLinker();
@@ -76,7 +85,11 @@ public class WikiLinker {
 			extractor.createIndex();
 			break;
 		case "test":
-			test();
+			try {
+				test();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown command");
@@ -84,8 +97,73 @@ public class WikiLinker {
 		exit();
 	}
 
-	private static void test() {
+	private static void test() throws FileNotFoundException, IOException {
+		double precision = 0;
+		double recall = 0;
 
+		String[] testlink = null;
+		String[] pagelink = null;
+		String[] titleList = null;
+		List<Link> testAnchors = new ArrayList<>();
+		List<Link> pageAnchors = new ArrayList<>();
+
+		if (Strings.isNullOrEmpty(testPath)) {
+			testPath = "resources\\linker_output.txt";
+		}
+		InputStream pageFIS = new FileInputStream(testPath);
+		BufferedReader pageBR = new BufferedReader(new InputStreamReader(pageFIS, Charset.forName("UTF-8")));
+		String linkline = null;
+		try {
+			while ((linkline = pageBR.readLine()) != null) {
+				pagelink = linkline.split(" : ");
+				if (pagelink.length < 2) {
+					exitWithError();
+				}
+				Link a = new Link(pagelink[0]);
+				titleList = pagelink[1].split(",");
+				for (String title : titleList) {
+					a.addTitle(title);
+				}
+				pageAnchors.add(a);
+			}
+		} finally {
+			if (pageBR != null) {
+				pageBR.close();
+			}
+		}
+
+		if (Strings.isNullOrEmpty(refPath)) {
+			refPath = "resources\\testpage_links.txt";
+		}
+		InputStream testFIS = new FileInputStream(refPath);
+		BufferedReader testBR = new BufferedReader(new InputStreamReader(testFIS, Charset.forName("UTF-8")));
+		try {
+
+			while ((linkline = testBR.readLine()) != null) {
+				testlink = linkline.split(" : ");
+				if (testlink.length != 2) exit();
+				Link a = new Link(testlink[0]);
+				a.addTitle(testlink[1]);
+				testAnchors.add(a);
+			}
+		} finally {
+			if (testBR != null) {
+				testBR.close();
+			}
+		}
+
+		for (Link tl : testAnchors) {
+			for (Link pl : pageAnchors) {
+				if (tl.getAnchor().compareTo(pl.getAnchor()) == 0) if (pl.getTitles().contains(tl.getTitles().get(0))) {
+					recall += 1.0;
+					precision += 1.0;
+				}
+			}
+		}
+		recall /= testAnchors.size();
+		precision /= pageAnchors.size();
+		LOG.i(MessageFormat.format("Recall:\t{0,number,#.##%}", recall));
+		LOG.i(MessageFormat.format("Precision:\t{0,number,#.##%}", precision));
 	}
 
 	private static void exitWithError() {
@@ -118,8 +196,8 @@ public class WikiLinker {
 		bld.append("hu.bme.tmit.wikilinker.WikiLinker <command> <params> dump=path1,[path2,path3...]").append("\n\n");
 		bld.append("Command").append("\n");
 		bld.append("\t").append("extract").append("\t").append("Extract anchors from dump.").append("\n");
-		bld.append("\t").append("index").append("\t").append("Creates index on DB tables").append("\n");
-		bld.append("\t").append("test").append("\t").append("Creates index on DB tables").append("\n");
+		bld.append("\t").append("index").append("\t").append("Creates index on DB tables.").append("\n");
+		bld.append("\t").append("test").append("\t").append("Tests an output to a reference output.").append("\n");
 		bld.append("\t").append("link").append("\t").append("Link a Wikipedia page.").append("\n");
 		bld.append("Parameters").append("\n");
 		bld
@@ -128,7 +206,6 @@ public class WikiLinker {
 				.append("\t")
 				.append("The path(s) of the dump(s) to process. No space is allowed in or between the path(s)")
 				.append("\n");
-		bld.append("Parameters").append("\n");
 		bld
 				.append("\t")
 				.append("-l <logInterval>")
@@ -141,6 +218,12 @@ public class WikiLinker {
 				.append("\t")
 				.append(
 						"The linking result is printid to the file, defined by this path. If ommited, the standard System.out is used.")
+				.append("\n");
+		bld
+				.append("\t")
+				.append("-ref <pathToReference>")
+				.append("\t")
+				.append("The path of the reference output to test.")
 				.append("\n");
 		System.out.println(bld.toString());
 	}

@@ -1,6 +1,5 @@
 package hu.bme.tmit.wikilinker.model;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 
 public class Hit implements Comparable<Hit>{
