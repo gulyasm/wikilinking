@@ -1,7 +1,27 @@
-anchor3 page2
-anchor2 page2
-anchor5 page3
-anchor7 page5
-anchor4 page6
-anchor1 page4
-anchor6 page1
+telecommunications : telecommunication
+information processing : information processing
+content handling : content management
+electronic communications : electronic communications
+mobile telephony : mobile telephony
+data communications : data transmission
+media communications : media (communication)
+broadcasting : broadcasting
+digital technology : digital electronics
+internet technology : computer network
+eighties : 1980s
+scientific conferences : academic conference
+1990s : 1990s
+regulatory authorities : reuglatory agency
+information technology : information technology
+digital technology : digital electronics
+content management : content management
+value-chain : value chain
+cognitive infocommunicaions : cognitive infocommunications
+internet of things : internet of things
+future internet : future internet
+information and communication(s) technology : information and communication technology
+mass communication : mass communication
+ict : information and communication technology
+digital convergence : digital convergence
+telematics : telematics
+prism : prism (geometry)

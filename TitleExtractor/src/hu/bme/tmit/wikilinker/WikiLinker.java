@@ -113,7 +113,8 @@ public class WikiLinker {
 		BufferedReader pageBR = new BufferedReader(new InputStreamReader(pageFIS, Charset.forName("UTF-8")));
 		String linkline = null;
 		while((linkline = pageBR.readLine()) != null){
-			pagelink = linkline.split(" ");
+			pagelink = linkline.split(" : ");
+			if(pagelink.length != 2) exitWithError();
 			Link a = new Link(pagelink[0]);
 			titleList = pagelink[1].split(",");
 			for(String title : titleList){
@@ -125,7 +126,8 @@ public class WikiLinker {
 		InputStream testFIS = new FileInputStream("resources\\testpage_links.txt");
 		BufferedReader testBR = new BufferedReader(new InputStreamReader(testFIS, Charset.forName("UTF-8")));
 		while((linkline = testBR.readLine()) != null){
-			testlink = linkline.split(" ");
+			testlink = linkline.split(" : ");
+			if(testlink.length != 2) exitWithError();
 			Link a = new Link(testlink[0]);
 			a.addTitle(testlink[1]);
 			testAnchors.add(a);
@@ -135,12 +137,15 @@ public class WikiLinker {
 			for(Link pl : pageAnchors){
 				if(tl.getAnchor().compareTo(pl.getAnchor()) == 0)
 					if(pl.getTitles().contains(tl.getTitles().get(0))){
+						recall += 1.0;
 						precision += 1.0;
 					}
 			}
 		}
-		precision /= testAnchors.size();
-		System.out.println("Precision: " + precision);		
+		recall /= testAnchors.size();
+		precision /= pageAnchors.size();
+		System.out.println("Recall: " + recall*100 + " %");
+		System.out.println("Precision: " + precision*100 + " %");
 	}
 
 	private static void exitWithError() {

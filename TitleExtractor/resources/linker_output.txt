@@ -1,38 +1,106 @@
-2008 2008,so2008,2008â€“09,2008-10-20,as of 2008,march 2008,<font color="#0046bb">2008</font>,'08,29th,now,new year,prolonged
-radiocarbon radiocarbon
-rock rock
-equipment equipment
-farmer farmer
-bones bones
-bark bark,tree bark,inner bark
-place place
-30 30
-years years,y
-accident accident
-16 16
-willow willow,willow trees,withy,''salix''
-net net
-1913 1913
-loops loops
-weapons weapons,arms
-dating dating,date,blind date
-swamp swamp,swamp forest,slough
-boat boat,shoreboat,boat launch
-including including
-long long
-tools tools
-autumn autumn,autumnal,fall,read more...
-archaeologist archaeologist
-display display
-period .
-size size
-hunting hunting,hunt,hunting lodge,hunted,hunters,hunter,huntsman,sporting estate
-centimeters centimeters,cm
-ditching ditching,ditch
-clay clay,red clay,blue clay,white clay,argillaceous
-today today
-meters meters,m,m.
-capsize capsize,capsizing
-calendar calendar
-meadow meadow,transitional meadow
-found found
+2007 : 2007,2007 season,main events of 2007,'07,'06
+colour : colour
+politics : politics,applied politics,migration politics,political,politician,politicians,politically,public life,of,political life,political issues,orientation,political beliefs,political career,political activities,political developments,something i made up so i can get something i want and ignore what everyone is telling me
+networked : networked
+2012 : 2012,12,main events of 2012,other events of 2012,2012 philippine peace cup
+2011 : 2011,2011â ð³.,other events of 2011,new year,this year
+2010 : 2010,<span style="color:#a29a97">2010.</span>,2010 curlers corner autumn gold curling classic,2010 internazionali bnl d'italia - women's doubles
+prism : prism
+2015 : 2015
+206 : 206
+authorities : authorities
+components : components
+communications : communications,communications degree
+handling : handling
+515 : 515
+organizations : organizations,organization
+abbreviation : abbreviations,abbreviation,abbrev,abbr,abbreviated,abbrv,abbr.,abrv:
+electronic : electronic
+red : red,r,red (r),tomato red,pratap
+base : base
+broadcasting : broadcasting,broadcast,broadcas,broadcasting editor,broadcasting companies,broadcasting & cable tv,television broadcasting,broadcasts,broadcasters,broadcaster,broadcasted,broadcaster's,telecasted,telecast,radio broadcaster,air date,media,tv rights,aired,broadcast communication,video transmission,television broadcast,television broadcasters,terrestrial television,broadcast and electronic communication
+processing : processing
+areas : areas
+mobile : mobile
+area : area,a,<math>a_{c,t}</math>
+integration : integration
+communication : communication,communication processes,communications & internet,english communication proficiency,communicative,correspondence
+society : society,human society,societies,social
+al : al
+services : services
+manufacturers : manufacturers
+phases : phases
+development : development
+express : express
+short : short
+published : published
+products : products
+telephony : telephony,telephone
+green : green,green (g),g,dark green,green party,apple green,forest green,shivaji
+cyan : cyan,c,cyan (c)
+players : players
+technology : technology,tech,technology company,technologies,technologist,technological,technical,techniques,technique,design,1,technological systems,technological development
+related : related,''related''
+participation : participation
+1990s : 1990s,modern-day,the last decade of the 20th century
+minus : minus
+means : means
+sectors : sectors
+scale : scale
+expansion : expansion,expansion records
+conferences : conferences
+eighties : eighties
+online : online,online and offline
+informatics : informatics,informaticians,computer science
+blue : blue,skyblue,b,blue (b),sky blue,blue link,vivid blue,patel,bllue links,talent for self-parody
+audiovisual : audiovisual,av
+scientific : scientific
+yellow : yellow,yellow (y),y,sunflower yellow,lakshmi bai
+etc. : etc.
+providers : providers,rasmus stabell, jeppe federspiel,rasmus stabell and jeppe federspiel
+convergence : convergence
+contents : contents
+international : international,international level,int,transnational
+content : content,comment
+common : common
+data : data,"data",semantic data
+digital : digital,digitally,digitally-mediated
+1991 : 1991,the following year
+1999 : 1999.,1999,1999 in quã©bec
+relationship : relationship
+printed : printed
+part : part
+77 : 77,77 ad
+synonym : synonym,synonymous
+adopted : adopted
+white : white,off-white
+natural : natural
+hyphen : hyphen,looking
+interpret : interpret
+additive : additive
+service : service
+pp : pp,peopleâ´s party
+evolutionary : evolutionary,evolutionarily
+information : information,input,light,bim
+pairs : pairs
+form : forms,form
+huge : huge
+combination : combination,select,5 choose 4
+position : position
+telecommunications : telecommunications,communications,telecommunications industry,telecom,commercial telecommunications,telecommunication services,teleport,carrier services
+process : process,processing,process (disambiguation)
+magenta : magenta,magenta (m),m,magenta colored
+sector : sector
+mass : mass,weight [mass
+unification : unification
+linked : linked
+global : global
+sense : sense,five senses,animal senses,five main senses,sensing,sensory,sensation,sensory perceptions,sensory environment,sensory information,five sensory modalities,the five methods of perception
+triplet : triplet,triplets
+management : management,manage,management studies,management science,business management,operational management,management and leadership,management & business strategy,bachelors of project planning & management,managed,managing,manager,managers,capocomico,strategy,resourcing,operator,sustainability,administration,administrative,managerial strategy,commercial manager,administrative sciences,administrative skills
+media : media
+regulatory : regulatory
+full : full
+rule : rule
+triple : triple
+term : term
