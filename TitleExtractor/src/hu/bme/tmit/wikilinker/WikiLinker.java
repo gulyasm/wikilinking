@@ -196,8 +196,8 @@ public class WikiLinker {
 		bld.append("hu.bme.tmit.wikilinker.WikiLinker <command> <params> dump=path1,[path2,path3...]").append("\n\n");
 		bld.append("Command").append("\n");
 		bld.append("\t").append("extract").append("\t").append("Extract anchors from dump.").append("\n");
-		bld.append("\t").append("index").append("\t").append("Creates index on DB tables").append("\n");
-		bld.append("\t").append("test").append("\t").append("Creates index on DB tables").append("\n");
+		bld.append("\t").append("index").append("\t").append("Creates index on DB tables.").append("\n");
+		bld.append("\t").append("test").append("\t").append("Tests an output to a reference output.").append("\n");
 		bld.append("\t").append("link").append("\t").append("Link a Wikipedia page.").append("\n");
 		bld.append("Parameters").append("\n");
 		bld
@@ -206,7 +206,6 @@ public class WikiLinker {
 				.append("\t")
 				.append("The path(s) of the dump(s) to process. No space is allowed in or between the path(s)")
 				.append("\n");
-		bld.append("Parameters").append("\n");
 		bld
 				.append("\t")
 				.append("-l <logInterval>")
@@ -219,6 +218,12 @@ public class WikiLinker {
 				.append("\t")
 				.append(
 						"The linking result is printid to the file, defined by this path. If ommited, the standard System.out is used.")
+				.append("\n");
+		bld
+				.append("\t")
+				.append("-ref <pathToReference>")
+				.append("\t")
+				.append("The path of the reference output to test.")
 				.append("\n");
 		System.out.println(bld.toString());
 	}
