@@ -69,6 +69,7 @@ public class LinkerCallback extends AbstractPageCallback {
         String[] toks;
         toks = tokenizer.tokenize(page.getText());
         List<String> toksTemp = new ArrayList<>();
+        List<String> expressions = new ArrayList<>();
 
 		/* Stoplist and Predicate */
         for (String token : toks) {
@@ -76,14 +77,14 @@ public class LinkerCallback extends AbstractPageCallback {
                 toksTemp.add(sanitezer.sanitize(token));
             }
         }
-        toks = toksTemp.toArray(new String[toksTemp.size()]);
-        /* Eliminate duplicate occurrences */
-        Set<String> tokenSet = Sets.newHashSet(toks);
+        
+        expressions = makeExpressions(toksTemp, 2);
+        toks = expressions.toArray(new String[expressions.size()]);
 
 		/* Process the page along tokenSet set */
-        for (Iterator<String> istr = tokenSet.iterator(); istr.hasNext(); ) {
+        for (int i = 0; i < toks.length; i++) {
             Anchor anchor = null;
-            String token = istr.next();
+            String token = toks[i];
             if (Strings.isNullOrEmpty(token)) {
                 continue;
             }
@@ -133,11 +134,11 @@ public class LinkerCallback extends AbstractPageCallback {
             // Format output: anchor : title1,title2,...
             if (hits.size() > 0) {
                 outputStream.print(anchor.getName() + " : ");
-                for (int i = 0; i < hits.size(); i++) {
-                    outputStream.print(hits.get(i).getPage().getName());
-                    if (i < hits.size() - 1) outputStream.print(",");
+                for (int j = 0; j < hits.size(); j++) {
+                    outputStream.print(hits.get(j).getPage().getName());
+                    if (j < hits.size() - 1) outputStream.print(",");
                 }
-                if (istr.hasNext()) outputStream.println();
+                if (i < toks.length-1) outputStream.println();
             }
         }
     }
@@ -158,6 +159,22 @@ public class LinkerCallback extends AbstractPageCallback {
         return count / (double) s;
     }
 
+    private List<String> makeExpressions(List<String> tokens, int depth){
+    	List<String> expressions = new ArrayList<>();
+    	int count = 0;
+    	for(int i = 0; i < tokens.size()+1-depth; i++){
+    		String temp = tokens.get(i);
+    		if(!expressions.contains(temp))
+    			expressions.add(temp);
+    		for(int j = 1; j < depth; j++){
+    			temp = temp.concat(" ").concat(tokens.get(i+j));
+	    		if(!expressions.contains(temp))
+	    			expressions.add(temp);
+    		}
+    	}
+    	return expressions;
+    }
+    
     private class LinkerPredicate implements Predicate<String> {
 
         @Override
