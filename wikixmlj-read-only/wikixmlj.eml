@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/tests"/>
+	</contentEntry>
+	<lib name="xercesImpl.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/../wikixmlj-read-only/lib/xercesImpl.jar!/"/>
+	</lib>
+	<lib name="bzip2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/../wikixmlj-read-only/lib/bzip2.jar!/"/>
+	</lib>
+</component>
