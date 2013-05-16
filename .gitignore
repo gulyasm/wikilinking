@@ -1,6 +1,7 @@
 WikipediaLinker/bin/
 TitleExtractor/bin/
 TitleExtractor/db/
+TitleExtractor/.idea/
 wikixmlj-read-only/bin/
 DatabaseTest/bin/
 DatabaseTest/db/
