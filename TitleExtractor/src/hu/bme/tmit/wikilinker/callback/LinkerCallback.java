@@ -1,10 +1,8 @@
 package hu.bme.tmit.wikilinker.callback;
 
 import com.almworks.sqlite4java.SQLiteException;
-import com.google.common.base.Charsets;
-import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
+import com.google.common.base.*;
+import com.google.common.collect.Collections2;
 import com.google.common.io.Files;
 import edu.jhu.nlp.wikipedia.WikiPage;
 import hu.bme.tmit.wikilinker.BruteSanitezer;
@@ -69,7 +67,7 @@ public class LinkerCallback extends AbstractPageCallback {
         String[] toks;
         toks = tokenizer.tokenize(page.getText());
         List<String> toksTemp = new ArrayList<>();
-        List<String> expressions = new ArrayList<>();
+        List<String> expressions;
 
 		/* Stoplist and Predicate */
         for (String token : toks) {
@@ -77,14 +75,13 @@ public class LinkerCallback extends AbstractPageCallback {
                 toksTemp.add(sanitezer.sanitize(token));
             }
         }
-        
+
         expressions = makeExpressions(toksTemp, 2);
         toks = expressions.toArray(new String[expressions.size()]);
 
 		/* Process the page along tokenSet set */
-        for (int i = 0; i < toks.length; i++) {
+        for (String token : toks) {
             Anchor anchor = null;
-            String token = toks[i];
             if (Strings.isNullOrEmpty(token)) {
                 continue;
             }
@@ -134,11 +131,13 @@ public class LinkerCallback extends AbstractPageCallback {
             // Format output: anchor : title1,title2,...
             if (hits.size() > 0) {
                 outputStream.print(anchor.getName() + " : ");
-                for (int j = 0; j < hits.size(); j++) {
-                    outputStream.print(hits.get(j).getPage().getName());
-                    if (j < hits.size() - 1) outputStream.print(",");
-                }
-                if (i < toks.length-1) outputStream.println();
+                String pages = Joiner.on(", ").join(Collections2.transform(hits, new Function<Hit, String>() {
+                    @Override
+                    public String apply(Hit hit) {
+                        return hit.getPage().getName();
+                    }
+                }));
+                outputStream.print(pages);
             }
         }
     }
@@ -159,22 +158,21 @@ public class LinkerCallback extends AbstractPageCallback {
         return count / (double) s;
     }
 
-    private List<String> makeExpressions(List<String> tokens, int depth){
-    	List<String> expressions = new ArrayList<>();
-    	int count = 0;
-    	for(int i = 0; i < tokens.size()+1-depth; i++){
-    		String temp = tokens.get(i);
-    		if(!expressions.contains(temp))
-    			expressions.add(temp);
-    		for(int j = 1; j < depth; j++){
-    			temp = temp.concat(" ").concat(tokens.get(i+j));
-	    		if(!expressions.contains(temp))
-	    			expressions.add(temp);
-    		}
-    	}
-    	return expressions;
+    private List<String> makeExpressions(List<String> tokens, int depth) {
+        List<String> expressions = new ArrayList<>();
+        for (int i = 0; i < tokens.size() + 1 - depth; i++) {
+            String temp = tokens.get(i);
+            if (!expressions.contains(temp))
+                expressions.add(temp);
+            for (int j = 1; j < depth; j++) {
+                temp = temp.concat(" ").concat(tokens.get(i + j));
+                if (!expressions.contains(temp))
+                    expressions.add(temp);
+            }
+        }
+        return expressions;
     }
-    
+
     private class LinkerPredicate implements Predicate<String> {
 
         @Override
